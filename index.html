@@ -22,6 +22,13 @@
       const MORT_PER_100K = 'Estimated mortality of TB cases (all forms, excluding HIV) per 100 000 population';
       const ALL_MORT = 'Estimated number of deaths from TB (all forms, excluding HIV)';
 
+      const YEAR = 'Year';
+      const REGION_FIELD = 'Region';
+      const COUNTRY_FIELD = 'Country or territory name';
+
+      const REGIONS = ['AFR', 'AMR', 'EMR', 'EUR', 'SEA', 'WPR'];
+      const COUNTRIES = [];
+
       let count = 0;
       let tb_data;
 
@@ -32,8 +39,29 @@
         });
 
       async function init() {
-        //const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv'); 
-        
+        region_data = {};
+        country_data = {};
+
+        REGIONS.forEach(function(region) {
+          region_data[region] = tb_data.filter(function(element) {
+            return element[REGION_FIELD] == region;
+          });
+        });
+
+        for (let i = 0; i < tb_data.length; i++) {
+          if (!COUNTRIES.includes(tb_data[i][COUNTRY_FIELD])) {
+            COUNTRIES.push(tb_data[i][COUNTRY_FIELD]);
+          }
+        } 
+
+        COUNTRIES.forEach(function(country) {
+          country_data[country] = tb_data.filter(function(element) {
+            return element[COUNTRY_FIELD] == country;
+          });
+        });
+
+        console.log(country_data);
+
         // Martini Glass Visualization beginning with Global TB cases and case rate over time (avg rate but also calcualted rate)
         // acutally just do case rate and death rate
 
