@@ -1,59 +1,67 @@
 <html>
-  <script src='https://d3js.org/d3.v7.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
-  <script src='https://unpkg.com/topojson-client@3'></script>
-    <body onload='init()'>
-      <svg width=1000 height=1000>
-      </svg>
-      <button onclick="update_state()">click</button>
-    </body>
-  <script>
-    /*
-      WHO Regions:
-      AFR = Africa
-      AMR = Americas
-      EMR = Eastern Mediterranean
-      EUR = Europe
-      SEA = Southeast Asia
-      WPR = Western Pacific
+  <head>
+    <script src='https://d3js.org/d3.v7.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
+    <script src='https://unpkg.com/topojson-client@3'></script>
+    <script>
+      /*
+        WHO Regions:
+        AFR = Africa
+        AMR = Americas
+        EMR = Eastern Mediterranean
+        EUR = Europe
+        SEA = Southeast Asia
+        WPR = Western Pacific
 
-      Incidence is new cases, while prevalence includes existing active casess
-    */
+        Incidence is new cases, while prevalence includes existing active casess
+      */
 
-    const TOTAL_POPULATION = 'Estimated total population number';
-    const ALL_CASES = 'Estimated number of incident cases (all forms)';
-    const CASES_PER_100K = 'Estimated incidence (all forms) per 100 000 population';
-    const MORT_PER_100K = 'Estimated mortality of TB cases (all forms, excluding HIV) per 100 000 population';
-    const ALL_MORT = 'Estimated number of deaths from TB (all forms, excluding HIV)';
+      const TOTAL_POPULATION = 'Estimated total population number';
+      const ALL_CASES = 'Estimated number of incident cases (all forms)';
+      const CASES_PER_100K = 'Estimated incidence (all forms) per 100 000 population';
+      const MORT_PER_100K = 'Estimated mortality of TB cases (all forms, excluding HIV) per 100 000 population';
+      const ALL_MORT = 'Estimated number of deaths from TB (all forms, excluding HIV)';
 
-    let count = 0;
+      let count = 0;
 
-    async function init() {
-      //const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv'); 
-      
-      // Martini Glass Visualization beginning with Global TB cases and case rate over time (avg rate but also calcualted rate)
-      // acutally just do case rate and death rate
+      async function init() {
+        //const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv'); 
+        
+        // Martini Glass Visualization beginning with Global TB cases and case rate over time (avg rate but also calcualted rate)
+        // acutally just do case rate and death rate
 
 
-      // Second visualizataion breaks this down per region
+        // Second visualizataion breaks this down per region
 
 
-      // third shows data for regions in africa to show TB oubreaks and how it affects overall count/average
-      
-      
-      // Final data exploration is scatterplot for each country colored by region of incidence vs population with slider for year and zooming
+        // third shows data for regions in africa to show TB oubreaks and how it affects overall count/average
+        
+        
+        // Final data exploration is scatterplot for each country colored by region of incidence vs population with slider for year and zooming
 
 
-      const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv');
-      d3.select('svg').selectAll('rect').data(data).enter().append('rect')
-        .attr('height', function (d) {return d['Estimated number of incident cases (all forms)'];}).attr('width', 10)
-        .attr('x', function (d, i) {return i*10;}).attr('y', count);
-    }
+        const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv');
+        d3.select('svg').selectAll('rect').data(data).enter().append('rect')
+          .attr('height', function (d) {return d['Estimated number of incident cases (all forms)'];}).attr('width', 10)
+          .attr('x', function (d, i) {return i*10;}).attr('y', count)
+          .style("fill", "brown");
+      }
 
-    async function update_state() {
-      count += 100;
-      d3.select('svg').selectAll('rect').remove();
-      init();
-    }
-  </script>
+      async function update_state() {
+        count += 100;
+        d3.select('svg').selectAll('rect').remove();
+        init();
+      }
+    </script>
+    <style>
+      rect {
+        fill: blue;
+      }
+    </style>
+  </head>
+  <body onload='init()'>
+    <svg width=1000 height=1000>
+    </svg>
+    <button onclick="update_state()">click</button>
+  </body>
 </html>
