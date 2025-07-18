@@ -8,7 +8,7 @@
     </body>
   <script>
     async function init() {
-      const data = await d3.csv('https://nattyhamz.github.io/data/vg_sales.csv');
+      const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv');
       d3.select('svg').selectAll('rect').data(data).enter().append('rect')
         .attr('height', function (d) {return d.critic_score;}).attr('width', 10)
         .attr('x', function (d, i) {return i*10;}).attr('y', 20);
