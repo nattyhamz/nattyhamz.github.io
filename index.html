@@ -23,6 +23,13 @@
       const ALL_MORT = 'Estimated number of deaths from TB (all forms, excluding HIV)';
 
       let count = 0;
+      let tb_data;
+
+      d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv')
+        .then((data) => {
+          tb_data = data;
+          init();
+        });
 
       async function init() {
         //const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv'); 
@@ -39,9 +46,7 @@
         
         // Final data exploration is scatterplot for each country colored by region of incidence vs population with slider for year and zooming
 
-
-        const data = await d3.csv('https://nattyhamz.github.io/data/TB_Burden_Country.csv');
-        d3.select('svg').selectAll('rect').data(data).enter().append('rect')
+        d3.select('svg').selectAll('rect').data(tb_data).enter().append('rect')
           .attr('height', function (d) {return d['Estimated number of incident cases (all forms)'];}).attr('width', 10)
           .attr('x', function (d, i) {return i*10;}).attr('y', count)
           .style("fill", "brown");
@@ -49,7 +54,7 @@
 
       async function update_state() {
         count += 100;
-        d3.select('svg').selectAll('rect').remove();
+        d3.select('svg').selectAll('*').remove();
         init();
       }
     </script>
@@ -59,7 +64,7 @@
       }
     </style>
   </head>
-  <body onload='init()'>
+  <body>
     <svg width=1000 height=1000>
     </svg>
     <button onclick="update_state()">click</button>
